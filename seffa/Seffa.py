@@ -66,7 +66,7 @@ class SeffaApplication(gtk.glade.XML):
     def on_frameEditor_expose_event(self, frameEditor, event):
         x,y,w,h = frameEditor.get_allocation()
         
-        filepath = os.path.join(settings.DATADIR, "image","prolinux.png")
+        filepath = os.path.join(settings.DATADIR, "images","prolinux.png")
         pixbuf = gtk.gdk.pixbuf_new_from_file(filepath)
         
         self.drawRectangle(0,0, w,h)
