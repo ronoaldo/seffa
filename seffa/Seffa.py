@@ -26,8 +26,6 @@ class SeffaApplication(gtk.glade.XML):
 
         self.signal_autoconnect(self)
 
-        self.drawRectangle(0,0, 320,320)
-
     def __getattr__(self, name):
         widget = self.get_widget(name)
         if widget is not None:
@@ -39,6 +37,16 @@ class SeffaApplication(gtk.glade.XML):
 
     def on_mainWindow_delete_event(self, *args, **kargs):
         self.quit()
+
+    def on_frameEditor_expose_event(self, frameEditor, event):
+        x,y,w,h = frameEditor.get_allocation()
+        
+        filepath = os.path.join(settings.DATADIR, "images","prolinux.png")
+        pixbuf = gtk.gdk.pixbuf_new_from_file(filepath)
+        
+        self.drawRectangle(0,0, w,h)
+        self.drawPixbuf(0,0,pixbuf)
+
 
     # Helper Functions
 
@@ -55,22 +63,14 @@ class SeffaApplication(gtk.glade.XML):
 
     def drawRectangle(self, x, y, w, h):
         gc = self._drawPrepare()
+        
         self.frameEditor.window.draw_rectangle(gc, False, x, y, w-1, h-1)
 
     def drawPixbuf(self, x, y, pixbuf):
         gc = self._drawPrepare()      
         
         pw, ph = pixbuf.get_width(), pixbuf.get_height()
-        self.frameEditor.window.draw_pixbuf(gc, pixbuf, 0, 0, x, y)
-
-    def on_frameEditor_expose_event(self, frameEditor, event):
-        x,y,w,h = frameEditor.get_allocation()
-        
-        filepath = os.path.join(settings.DATADIR, "images","prolinux.png")
-        pixbuf = gtk.gdk.pixbuf_new_from_file(filepath)
-        
-        self.drawRectangle(0,0, w,h)
-        self.drawPixbuf(0,0,pixbuf)
+        self.frameEditor.window.draw_pixbuf(gc, pixbuf, 1, 1, x, y)
 
     def quit(self):
         """ Finish the application, saving current projects.
