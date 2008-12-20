@@ -45,7 +45,7 @@ class SeffaApplication(gtk.glade.XML):
         pixbuf = gtk.gdk.pixbuf_new_from_file(filepath)
         
         self.drawRectangle(0,0, w,h)
-        self.drawPixbuf(0,0,pixbuf)
+        self.drawPixbuf(1,1,pixbuf)
 
 
     # Helper Functions
@@ -70,7 +70,7 @@ class SeffaApplication(gtk.glade.XML):
         gc = self._drawPrepare()      
         
         pw, ph = pixbuf.get_width(), pixbuf.get_height()
-        self.frameEditor.window.draw_pixbuf(gc, pixbuf, 1, 1, x, y)
+        self.frameEditor.window.draw_pixbuf(gc, pixbuf, 0, 0, x, y)
 
     def quit(self):
         """ Finish the application, saving current projects.
