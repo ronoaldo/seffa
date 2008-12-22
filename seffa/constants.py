@@ -6,7 +6,8 @@
     IMAGE_PNG,
     IMAGE_JPG,
     IMAGE_GIF,
-) = range(3)
+    IMAGE_GDKPIXBUF,
+) = range(4)
 
 (
     DURATION_BY_FRAME,

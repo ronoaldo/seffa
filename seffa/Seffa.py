@@ -8,12 +8,13 @@ import gtk
 import gtk.gdk
 import gtk.glade
 
-from seffa import constants
+from seffa.constants import *
+from seffa.animation import MovieAnimation, MovieFrame, Image
 
 class SeffaApplication(gtk.glade.XML):
     """ Seffa main application GUI. """
 
-    filename = os.path.join(constants.DATADIR,"glade","main.glade")
+    filename = os.path.join(DATADIR,"glade","main.glade")
 
     # Python Object code
 
@@ -38,9 +39,9 @@ class SeffaApplication(gtk.glade.XML):
         self.quit()
 
     def on_frameEditor_expose_event(self, frameEditor, event):
-        x,y,w,h = frameEditor.get_allocation()
+        x,y, w,h = frameEditor.get_allocation()
         
-        filepath = os.path.join(constants.DATADIR, "images","prolinux.png")
+        filepath = os.path.join(DATADIR, "images","prolinux.png")
         pixbuf = gtk.gdk.pixbuf_new_from_file(filepath)
         
         self.drawRectangle(0,0, w,h)
