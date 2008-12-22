@@ -1,3 +1,3 @@
 # -*- coding:utf8 -*-
 
-from seffa import settings
+__all__ = ['Seffa','constants','animation']
