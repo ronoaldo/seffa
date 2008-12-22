@@ -1,6 +1,6 @@
 # -*- coding:utf8 -*-
 
-from seffa import constants
+from seffa.constants import *
 
 class MovieObject:
 
@@ -10,7 +10,7 @@ class MovieObject:
 
 class Image(MovieObject):
     
-    type   = constants.PNG
+    type   = IMAGE_PNG
     alpha  = 100
     scale  = 100
     rotate = 0
@@ -35,7 +35,7 @@ class MovieAnimation:
 
     timeLine = None
 
-    def __init__(self, duration=0, type=constants.DURATION_FRAME):
+    def __init__(self, duration=0, type=DURATION_BY_FRAME):
         pass
 
     def addFrame(self, frame=MovieFrame()):

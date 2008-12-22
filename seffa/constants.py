@@ -12,3 +12,11 @@
     DURATION_BY_FRAME,
     DURATION_BY_TIME,
 ) = range(2)
+
+
+import os
+
+APPDIR  = os.path.dirname( __file__ )
+DATADIR = os.path.join(APPDIR, "data")
+
+del os
