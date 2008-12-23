@@ -39,7 +39,7 @@ class SeffaApplication(gtk.glade.XML):
         if widget is not None:
             return widget
         else:
-            raise AttributeError, widget
+            raise AttributeError, name
 
     # Gtk Callbacks
 
@@ -48,29 +48,22 @@ class SeffaApplication(gtk.glade.XML):
 
     def on_frameEditor_expose_event(self, frameEditor, event):
         x,y, w,h = frameEditor.get_allocation()
-        
-        filepath = os.path.join(DATADIR, "images","prolinux.png")
-        pixbuf = gtk.gdk.pixbuf_new_from_file(filepath)
-        
         self.drawBackground()
-        #self.drawPixbuf(1,1,pixbuf)
-
 
     # Helper Functions
 
     def _drawPrepare(self):
+        # TODO: Create a new gc. Currently, produces weard results!
         gc = self.frameEditor.get_style().fg_gc[gtk.STATE_NORMAL]
         
-        black = gtk.gdk.Color(0,0,0)
-        white = gtk.gdk.Color(255,255,255)
-
+        black = self.getGdkColor(0,0,0)
         gc.set_rgb_fg_color(black)
         
         return gc
 
     def drawBackground(self):
         # TODO: Draw the background image, not a gray color...
-        gray = gtk.gdk.Color(255,255,255)
+        gray = self.getGdkColor(210,210,210)
         w, h = self.movieDimensions()
         
         fx, fy, fw, fh = self.frameEditor.get_allocation()
@@ -84,15 +77,15 @@ class SeffaApplication(gtk.glade.XML):
         gc = self._drawPrepare()
                 
         self.frameEditor.window.draw_rectangle(
-            gc, False, x,y, w-1,h-1)
+            gc, False, x,y, w,h)
 
         if bg is not None:
-            gc.set_rgb_bg_color(bg)
+            gc.set_rgb_fg_color(bg)
             self.frameEditor.window.draw_rectangle(
-                gc, True, x,y, w-1,h-1)
+                gc, True, x+1,y+1, w-1,h-1)
 
     def drawPixbuf(self, x, y, pixbuf):
-        gc = self._drawPrepare()      
+        gc = self._drawPrepare()
         
         pw, ph = pixbuf.get_width(), pixbuf.get_height()
         self.frameEditor.window.draw_pixbuf(gc, pixbuf, 0, 0, x, y)
@@ -104,6 +97,9 @@ class SeffaApplication(gtk.glade.XML):
         """ Finish the application, saving current projects.
             TODO: Save projects before quit. """
         gtk.main_quit()
+
+    def getGdkColor(self, r, g, b, a=0):
+        return gtk.gdk.Color( r * (2**8), g * (2**8), b * (2**8), a)
 
 
 def run():
