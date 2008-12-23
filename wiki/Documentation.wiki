@@ -1,6 +1,8 @@
 #summary Seffa Documentation
 #labels Featured
 
+<wiki:gadget url="http://www.ohloh.net/p/gwt/widgets/project_factoids.xml" width="340" height="170" border="0" />
+
 = Introduction =
 
 This is the Seffa Documentation Wiki. You can find here all documentation you will need for working with Seffa. Also, some tutorials are avaiable.
