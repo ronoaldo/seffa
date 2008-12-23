@@ -21,7 +21,7 @@ class MovieObject:
     x = 0
     y = 0
 
-class Image(MovieObject):
+class MovieImage(MovieObject):
     """ A movie image.
 
         This class is a movie object that handles an
@@ -96,6 +96,8 @@ class MovieAnimation:
         forward ones. """
 
     timeLine = None
+    width = 640
+    height = 480
 
     def __init__(self, duration=0, type=DURATION_BY_FRAME):
         """ Instantiates a new MovieAnimation object.

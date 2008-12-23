@@ -9,7 +9,8 @@ import gtk.gdk
 import gtk.glade
 
 from seffa.constants import *
-from seffa.animation import MovieAnimation, MovieFrame, Image
+from seffa.animation import MovieFrame, MovieImage
+from seffa.project import AnimationProject
 
 class SeffaApplication(gtk.glade.XML):
     """ Seffa main application GUI. """
@@ -25,6 +26,13 @@ class SeffaApplication(gtk.glade.XML):
         self.mainWindow.show_all()
 
         self.signal_autoconnect(self)
+
+        # TODO: fix the project resolution
+        self.project = AnimationProject()
+
+        # Setup the frameEditor
+        w, h = self.movieDimensions() 
+        self.frameEditor.set_size_request(w, h)
 
     def __getattr__(self, name):
         widget = self.get_widget(name)
@@ -44,8 +52,8 @@ class SeffaApplication(gtk.glade.XML):
         filepath = os.path.join(DATADIR, "images","prolinux.png")
         pixbuf = gtk.gdk.pixbuf_new_from_file(filepath)
         
-        self.drawRectangle(0,0, w,h)
-        self.drawPixbuf(1,1,pixbuf)
+        self.drawBackground()
+        #self.drawPixbuf(1,1,pixbuf)
 
 
     # Helper Functions
@@ -57,20 +65,40 @@ class SeffaApplication(gtk.glade.XML):
         white = gtk.gdk.Color(255,255,255)
 
         gc.set_rgb_fg_color(black)
-        gc.set_rgb_bg_color(white)
         
         return gc
 
-    def drawRectangle(self, x, y, w, h):
-        gc = self._drawPrepare()
+    def drawBackground(self):
+        # TODO: Draw the background image, not a gray color...
+        gray = gtk.gdk.Color(255,255,255)
+        w, h = self.movieDimensions()
         
-        self.frameEditor.window.draw_rectangle(gc, False, x, y, w-1, h-1)
+        fx, fy, fw, fh = self.frameEditor.get_allocation()
+        x = (fw / 2) - (w / 2)
+        y = (fh / 2) - (h / 2)
+
+        self.drawRectangle(x, y, w, h, bg=gray)
+        
+
+    def drawRectangle(self, x, y, w, h, bg=None):
+        gc = self._drawPrepare()
+                
+        self.frameEditor.window.draw_rectangle(
+            gc, False, x,y, w-1,h-1)
+
+        if bg is not None:
+            gc.set_rgb_bg_color(bg)
+            self.frameEditor.window.draw_rectangle(
+                gc, True, x,y, w-1,h-1)
 
     def drawPixbuf(self, x, y, pixbuf):
         gc = self._drawPrepare()      
         
         pw, ph = pixbuf.get_width(), pixbuf.get_height()
         self.frameEditor.window.draw_pixbuf(gc, pixbuf, 0, 0, x, y)
+
+    def movieDimensions(self):
+        return self.project.movie.width, self.project.movie.height
 
     def quit(self):
         """ Finish the application, saving current projects.
