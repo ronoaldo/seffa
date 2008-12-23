@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Sat Dec 20 16:56:48 2008 -->
+<!--Generated with glade3 3.4.5 on Mon Dec 22 23:09:05 2008 -->
 <glade-interface>
   <widget class="GtkWindow" id="mainWindow">
     <property name="width_request">640</property>
@@ -236,13 +236,25 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkDrawingArea" id="frameEditor">
-                    <property name="width_request">320</property>
-                    <property name="height_request">320</property>
+                  <widget class="GtkScrolledWindow" id="scrolledwindow">
                     <property name="visible">True</property>
-                    <signal name="expose_event" handler="on_frameEditor_expose_event"/>
-                    <signal name="button_press_event" handler="on_frameEditor_button_press_event"/>
-                    <signal name="button_release_event" handler="on_frameEditor_button_release_event"/>
+                    <property name="can_focus">True</property>
+                    <child>
+                      <widget class="GtkViewport" id="viewport">
+                        <property name="visible">True</property>
+                        <property name="resize_mode">GTK_RESIZE_QUEUE</property>
+                        <child>
+                          <widget class="GtkDrawingArea" id="frameEditor">
+                            <property name="width_request">320</property>
+                            <property name="height_request">320</property>
+                            <property name="visible">True</property>
+                            <signal name="expose_event" handler="on_frameEditor_expose_event"/>
+                            <signal name="button_press_event" handler="on_frameEditor_button_press_event"/>
+                            <signal name="button_release_event" handler="on_frameEditor_button_release_event"/>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
                   </widget>
                   <packing>
                     <property name="position">1</property>
