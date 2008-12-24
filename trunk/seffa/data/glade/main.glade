@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Mon Dec 22 23:09:05 2008 -->
+<!--Generated with glade3 3.4.5 on Wed Dec 24 17:01:31 2008 -->
 <glade-interface>
   <widget class="GtkWindow" id="mainWindow">
     <property name="width_request">640</property>
@@ -150,6 +150,8 @@
         <child>
           <widget class="GtkToolbar" id="toolbarMain">
             <property name="visible">True</property>
+            <property name="toolbar_style">GTK_TOOLBAR_ICONS</property>
+            <property name="icon_size_set">True</property>
             <child>
               <widget class="GtkToolButton" id="toolNew">
                 <property name="visible">True</property>
@@ -177,6 +179,24 @@
                 <property name="expand">False</property>
               </packing>
             </child>
+            <child>
+              <widget class="GtkSeparatorToolItem" id="toolSeparator">
+                <property name="visible">True</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="toolbutton2">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">Exportar SWF</property>
+                <property name="icon">swfexport.png</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
           </widget>
           <packing>
             <property name="expand">False</property>
@@ -192,12 +212,12 @@
                 <property name="spacing">4</property>
                 <child>
                   <widget class="GtkVBox" id="vboxTools">
-                    <property name="width_request">180</property>
                     <property name="visible">True</property>
                     <child>
                       <widget class="GtkLabel" id="label3">
                         <property name="visible">True</property>
                         <property name="xalign">0</property>
+                        <property name="xpad">4</property>
                         <property name="label" translatable="yes">Ferramentas:</property>
                       </widget>
                       <packing>
@@ -206,6 +226,7 @@
                     </child>
                     <child>
                       <widget class="GtkHBox" id="hbox3">
+                        <property name="height_request">90</property>
                         <property name="visible">True</property>
                         <child>
                           <widget class="GtkToolbar" id="toolbar3">
@@ -268,6 +289,7 @@
                       <widget class="GtkLabel" id="labelProperties">
                         <property name="visible">True</property>
                         <property name="xalign">0</property>
+                        <property name="xpad">4</property>
                         <property name="label" translatable="yes">Propriedades:</property>
                       </widget>
                       <packing>
@@ -299,6 +321,7 @@
                   <widget class="GtkLabel" id="labelTimeLine">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
+                    <property name="xpad">4</property>
                     <property name="label" translatable="yes">Linha do tempo:</property>
                   </widget>
                   <packing>
@@ -306,14 +329,22 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkHScale" id="hscaleTimeLine">
+                  <widget class="GtkHBox" id="hbox1">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="adjustment">0 0 100 0.01 1 1</property>
-                    <property name="restrict_to_fill_level">False</property>
+                    <child>
+                      <widget class="GtkHScale" id="hscaleTimeLine">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="adjustment">0 0 100 0.01 1 1</property>
+                        <property name="restrict_to_fill_level">False</property>
+                        <property name="digits">2</property>
+                      </widget>
+                      <packing>
+                        <property name="padding">4</property>
+                      </packing>
+                    </child>
                   </widget>
                   <packing>
-                    <property name="expand">False</property>
                     <property name="position">1</property>
                   </packing>
                 </child>

@@ -84,7 +84,9 @@ class SeffaApplication(gtk.glade.XML):
 
     def createBackground(self):
         w, h = self.movieDimensions()
-        tile = self.createTilePixmap()
+        tile, mask = gtk.gdk.pixmap_create_from_xpm(
+            self.framePixmap, None,
+            os.path.join(DATADIR, "images", "bg-tile.xpm") )
         gc = self.framePixmap.new_gc(tile=tile, fill=gtk.gdk.TILED)
         
         self.framePixmap.draw_rectangle(
