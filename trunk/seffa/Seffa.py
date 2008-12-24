@@ -31,8 +31,7 @@ class SeffaApplication(gtk.glade.XML):
         self.project = AnimationProject()
 
         # Setup the frameEditor
-        w, h = self.movieDimensions() 
-        self.frameEditor.set_size_request(w, h)
+        self.setupFrameEditor()
 
     def __getattr__(self, name):
         widget = self.get_widget(name)
@@ -47,48 +46,55 @@ class SeffaApplication(gtk.glade.XML):
         self.quit()
 
     def on_frameEditor_expose_event(self, frameEditor, event):
-        x,y, w,h = frameEditor.get_allocation()
-        self.drawBackground()
+        
+        mw, mh = self.movieDimensions()
+        fx, fy, fw, fh = frameEditor.get_allocation()
+        cx = (fw/2) - (mw/2)
+        cy = (fh/2) - (mh/2)
+
+        frameEditor.window.draw_drawable(frameEditor.window.new_gc(),
+            self.framePixmap, 0, 0, cx, cy, fw, fh)
+        return False
+
 
     # Helper Functions
-
-    def _drawPrepare(self):
-        # TODO: Create a new gc. Currently, produces weard results!
-        gc = self.frameEditor.get_style().fg_gc[gtk.STATE_NORMAL]
+    
+    def setupFrameEditor(self):
+        w, h = self.movieDimensions() 
         
-        black = self.getGdkColor(0,0,0)
-        gc.set_rgb_fg_color(black)
+        self.frameEditor.set_size_request(w, h)
+        self.framePixmap = gtk.gdk.Pixmap(self.frameEditor.window, w, h)
         
-        return gc
+        black = gtk.gdk.color_parse("#000000")
+        white = gtk.gdk.color_parse("#ffffff")
+        
+        self.frameGC = self.framePixmap.new_gc()
+        self.frameGC.set_foreground(black)
+        self.frameGC.set_background(white)
+        
+        self.createBackground()
 
-    def drawBackground(self):
-        # TODO: Draw the background image, not a gray color...
-        gray = self.getGdkColor(210,210,210)
+    def createTilePixmap(self):
+        path = os.path.join(DATADIR, "images", "bg-tile.png")
+        pixbuf = gtk.gdk.pixbuf_new_from_file(path)
+        w, h = pixbuf.get_width(), pixbuf.get_height()
+        pixmap = gtk.gdk.Pixmap(self.frameEditor.window, w, h)
+        pixmap.draw_pixbuf(pixmap.new_gc(), pixbuf, 0, 0, 0, 0)
+        return pixmap
+
+    def createBackground(self):
         w, h = self.movieDimensions()
+        tile = self.createTilePixmap()
+        gc = self.framePixmap.new_gc(tile=tile, fill=gtk.gdk.TILED)
         
-        fx, fy, fw, fh = self.frameEditor.get_allocation()
-        x = (fw / 2) - (w / 2)
-        y = (fh / 2) - (h / 2)
-
-        self.drawRectangle(x, y, w, h, bg=gray)
-        
-
-    def drawRectangle(self, x, y, w, h, bg=None):
-        gc = self._drawPrepare()
-                
-        self.frameEditor.window.draw_rectangle(
-            gc, False, x,y, w,h)
-
-        if bg is not None:
-            gc.set_rgb_fg_color(bg)
-            self.frameEditor.window.draw_rectangle(
-                gc, True, x+1,y+1, w-1,h-1)
+        self.framePixmap.draw_rectangle(
+            gc, True, 0, 0, w, h)
 
     def drawPixbuf(self, x, y, pixbuf):
         gc = self._drawPrepare()
         
         pw, ph = pixbuf.get_width(), pixbuf.get_height()
-        self.frameEditor.window.draw_pixbuf(gc, pixbuf, 0, 0, x, y)
+        self.framePixmap.window.draw_pixbuf(gc, pixbuf, 0, 0, x, y)
 
     def movieDimensions(self):
         return self.project.movie.width, self.project.movie.height
@@ -97,9 +103,6 @@ class SeffaApplication(gtk.glade.XML):
         """ Finish the application, saving current projects.
             TODO: Save projects before quit. """
         gtk.main_quit()
-
-    def getGdkColor(self, r, g, b, a=0):
-        return gtk.gdk.Color( r * (2**8), g * (2**8), b * (2**8), a)
 
 
 def run():
