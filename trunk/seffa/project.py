@@ -3,6 +3,8 @@
 from seffa.animation import MovieAnimation
 
 class AnimationProject:
+    """ This class handles the Movie Animation
+        data. """
     
     name = "Untitled Animation"
     duration = 0.0

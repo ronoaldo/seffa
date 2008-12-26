@@ -20,6 +20,8 @@ class SeffaApplication(gtk.glade.XML):
     # Python Object code
 
     def __init__(self):
+        """ Constructor for the Seffa application 
+            main window. """
         gtk.glade.XML.__init__(self, self.filename)
         
         self.mainWindow = self.get_widget("mainWindow")
@@ -34,6 +36,9 @@ class SeffaApplication(gtk.glade.XML):
         self.setupFrameEditor()
 
     def __getattr__(self, name):
+        """ Returns the widget specified by 'name'.
+            Raise AttributeError if 'name' is not a
+            valid widget name. """
         widget = self.get_widget(name)
         if widget is not None:
             return widget
@@ -43,16 +48,20 @@ class SeffaApplication(gtk.glade.XML):
     # Gtk Callbacks
 
     def on_mainWindow_delete_event(self, *args, **kargs):
+        """ """
         self.quit()
 
     def on_frameEditor_expose_event(self, frameEditor, event):
-        
+        """ Updates the DrawingArea with the current
+            framePixmap contents, centering with the current
+            Movie Dimensions. """
         mw, mh = self.movieDimensions()
         fx, fy, fw, fh = frameEditor.get_allocation()
         cx = (fw/2) - (mw/2)
         cy = (fh/2) - (mh/2)
 
-        frameEditor.window.draw_drawable(frameEditor.window.new_gc(),
+        frameEditor.window.draw_drawable(
+            frameEditor.window.new_gc(),
             self.framePixmap, 0, 0, cx, cy, fw, fh)
         return False
 
@@ -60,10 +69,13 @@ class SeffaApplication(gtk.glade.XML):
     # Helper Functions
     
     def setupFrameEditor(self):
+        """ Initialize the frameEditor related widgets 
+            and pixmaps. """
         w, h = self.movieDimensions() 
         
         self.frameEditor.set_size_request(w, h)
-        self.framePixmap = gtk.gdk.Pixmap(self.frameEditor.window, w, h)
+        self.framePixmap = gtk.gdk.Pixmap(
+            self.frameEditor.window, w, h)
         
         black = gtk.gdk.color_parse("#000000")
         white = gtk.gdk.color_parse("#ffffff")
@@ -74,16 +86,11 @@ class SeffaApplication(gtk.glade.XML):
         
         self.createBackground()
 
-    def createTilePixmap(self):
-        path = os.path.join(DATADIR, "images", "bg-tile.png")
-        pixbuf = gtk.gdk.pixbuf_new_from_file(path)
-        w, h = pixbuf.get_width(), pixbuf.get_height()
-        pixmap = gtk.gdk.Pixmap(self.frameEditor.window, w, h)
-        pixmap.draw_pixbuf(pixmap.new_gc(), pixbuf, 0, 0, 0, 0)
-        return pixmap
-
     def createBackground(self):
+        """ Create the background image, and draw
+            it to the framePixmap. """
         w, h = self.movieDimensions()
+        
         tile, mask = gtk.gdk.pixmap_create_from_xpm(
             self.framePixmap, None,
             os.path.join(DATADIR, "images", "bg-tile.xpm") )
@@ -93,12 +100,14 @@ class SeffaApplication(gtk.glade.XML):
             gc, True, 0, 0, w, h)
 
     def drawPixbuf(self, x, y, pixbuf):
-        gc = self._drawPrepare()
-        
+        """ Draw a pixbuf on the framePixmap. """
+        gc = self.frameGC
         pw, ph = pixbuf.get_width(), pixbuf.get_height()
         self.framePixmap.window.draw_pixbuf(gc, pixbuf, 0, 0, x, y)
 
     def movieDimensions(self):
+        """ Returns the Movie Dimensions of the current
+            project. """
         return self.project.movie.width, self.project.movie.height
 
     def quit(self):
