@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Wed Dec 24 17:01:31 2008 -->
+<!--Generated with glade3 3.4.5 on Wed Dec 24 18:10:41 2008 -->
 <glade-interface>
   <widget class="GtkWindow" id="mainWindow">
     <property name="width_request">640</property>
     <property name="height_request">480</property>
     <property name="title" translatable="yes">Seffa SWF Editor</property>
     <property name="window_position">GTK_WIN_POS_CENTER</property>
+    <property name="icon">seffa.png</property>
     <signal name="delete_event" handler="on_mainWindow_delete_event"/>
     <child>
       <widget class="GtkVBox" id="vboxMain">
@@ -148,58 +149,79 @@
           </packing>
         </child>
         <child>
-          <widget class="GtkToolbar" id="toolbarMain">
+          <widget class="GtkHBox" id="hbox2">
             <property name="visible">True</property>
-            <property name="toolbar_style">GTK_TOOLBAR_ICONS</property>
-            <property name="icon_size_set">True</property>
             <child>
-              <widget class="GtkToolButton" id="toolNew">
+              <widget class="GtkToolbar" id="toolbarMain">
                 <property name="visible">True</property>
-                <property name="stock_id">gtk-new</property>
+                <property name="toolbar_style">GTK_TOOLBAR_ICONS</property>
+                <property name="icon_size_set">True</property>
+                <child>
+                  <widget class="GtkToolButton" id="toolNew">
+                    <property name="visible">True</property>
+                    <property name="stock_id">gtk-new</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkToolButton" id="toolOpen">
+                    <property name="visible">True</property>
+                    <property name="stock_id">gtk-open</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkToolButton" id="toolSave">
+                    <property name="visible">True</property>
+                    <property name="stock_id">gtk-save</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkSeparatorToolItem" id="toolSeparator">
+                    <property name="visible">True</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="homogeneous">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkToolButton" id="toolbutton2">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Exportar SWF</property>
+                    <property name="icon">swfexport.png</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                  </packing>
+                </child>
               </widget>
-              <packing>
-                <property name="expand">False</property>
-              </packing>
             </child>
             <child>
-              <widget class="GtkToolButton" id="toolOpen">
+              <widget class="GtkImage" id="image1">
                 <property name="visible">True</property>
-                <property name="stock_id">gtk-open</property>
+                <property name="has_tooltip">True</property>
+                <property name="tooltip_markup">&lt;b&gt;Seffa&lt;/b&gt; - Simple Editor For Flash Movies</property>
+                <property name="pixbuf">seffa.png</property>
               </widget>
               <packing>
                 <property name="expand">False</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkToolButton" id="toolSave">
-                <property name="visible">True</property>
-                <property name="stock_id">gtk-save</property>
-              </widget>
-              <packing>
-                <property name="expand">False</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkSeparatorToolItem" id="toolSeparator">
-                <property name="visible">True</property>
-              </widget>
-              <packing>
-                <property name="expand">False</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkToolButton" id="toolbutton2">
-                <property name="visible">True</property>
-                <property name="label" translatable="yes">Exportar SWF</property>
-                <property name="icon">swfexport.png</property>
-              </widget>
-              <packing>
-                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="pack_type">GTK_PACK_END</property>
+                <property name="position">1</property>
               </packing>
             </child>
           </widget>
           <packing>
             <property name="expand">False</property>
+            <property name="fill">False</property>
             <property name="position">1</property>
           </packing>
         </child>
