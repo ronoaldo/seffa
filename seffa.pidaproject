@@ -1,6 +1,0 @@
-name = seffa
-[run seffa]
-controller = GENERIC_EXECUTION
-default = True
-command = 'python -c "from seffa import Seffa; Seffa.run()"'
-cwd = /home/ronoaldo/devel/seffa/seffa
